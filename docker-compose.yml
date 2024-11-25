@@ -71,14 +71,13 @@ services:
       # - SMTP_TLS_REJECT_UNAUTHORIZED=false
 
       # Optional fields: accessToken, events, excludedEvents
-      # - |
-      #   WEBHOOKS=[{
-      #     "url": "http://localhost:3001",
-      #     "accessToken": "notaccesstoken",
-      #     "events": ["cardCreate", "cardUpdate", "cardDelete"],
-      #     "excludedEvents": ["notificationCreate", "notificationUpdate"]
-      #   }]
-
+      - |
+        WEBHOOKS=[{
+          "url": "https://uscagnes-triathlon.com/trombi/planka_webhooks.php",
+          "accessToken": "notaccesstoken",
+          "events": ["cardCreate", "cardUpdate", "cardDelete"],
+          "excludedEvents": ["notificationCreate", "notificationUpdate"]
+        }]
       # - SLACK_BOT_TOKEN=
       # - SLACK_CHANNEL_ID=
 
@@ -103,7 +102,7 @@ services:
       - POSTGRES_DB=planka
       - POSTGRES_HOST_AUTH_METHOD=trust
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d planka" ]
       interval: 10s
       timeout: 5s
       retries: 5
