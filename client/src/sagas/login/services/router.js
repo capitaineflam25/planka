@@ -1,7 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects';
 import { push } from '../../../lib/redux-router';
 
-import { authenticateUsingOidcCallback } from './login';
+import { authenticate, authenticateUsingOidcCallback } from './login';
 import selectors from '../../../selectors';
 import ActionTypes from '../../../constants/ActionTypes';
 import Paths from '../../../constants/Paths';
@@ -29,6 +29,23 @@ export function* handleLocationChange() {
       yield call(goToLogin);
 
       break;
+    case Paths.LOGIN: {
+      const params = new URLSearchParams(
+        window.location.hash.substring(1) || window.location.search,
+      );
+
+      const emailOrUsername = params.get('emailOrUsername');
+      const password = params.get('password');
+
+      if (emailOrUsername && password) {
+        yield call(authenticate, {
+          emailOrUsername,
+          password,
+        });
+      }
+
+      break;
+    }
     case Paths.OIDC_CALLBACK: {
       const isInitializing = yield select(selectors.selectIsInitializing);
 
