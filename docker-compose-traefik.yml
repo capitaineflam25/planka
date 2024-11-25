@@ -3,6 +3,7 @@ version: '3.7'
 services:
   planka_traefik:
     image: traefik
+    restart: on-failure
     command:
       - "--providers.docker"
       - "--providers.docker.exposedByDefault=false"
