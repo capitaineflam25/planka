@@ -29,6 +29,7 @@ export function* handleLocationChange() {
       yield call(goToLogin);
 
       break;
+    // Baptiste : Patch login without username : https://github.com/plankanban/planka/discussions/577
     case Paths.LOGIN: {
       const params = new URLSearchParams(
         window.location.hash.substring(1) || window.location.search,
