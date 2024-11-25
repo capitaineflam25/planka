@@ -9,14 +9,11 @@ services:
       - user-avatars:/app/public/user-avatars
       - project-background-images:/app/public/project-background-images
       - attachments:/app/private/attachments
-    ports:
-      - 3000:1337
     environment:
-      - BASE_URL=http://638taude.eedomus.com:3000
+      - BASE_URL=https://planka.eedomus.com
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=d8b4b7a7c32bcb7ae4cfdf14849d8a6b65161f9680ed5fae3901b1e3a383f2d5fb412ab75b9b5557eac962a7078f89bd7a2b16f66ef792a965b3970a56be8c86
-
-      # - TRUST_PROXY=0
+      - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
 
       # related: https://github.com/knex/knex/issues/2354
@@ -86,6 +83,13 @@ services:
       # - TELEGRAM_BOT_TOKEN=
       # - TELEGRAM_CHAT_ID=
       # - TELEGRAM_THREAD_ID=
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.kanban.rule=Host(`planka.eedomus.com`)'
+      - 'traefik.http.services.kanban.loadbalancer.server.port=1337'
+    networks:
+      - kanban_db
+      - traefik
     depends_on:
       postgres:
         condition: service_healthy
@@ -106,9 +110,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - kanban_db
 
 volumes:
   user-avatars:
   project-background-images:
   attachments:
   db-data:
+
+
+networks:
+  kanban_db:
+  traefik:
+    external: true
