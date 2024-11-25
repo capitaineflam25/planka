@@ -158,10 +158,9 @@ module.exports = {
       isRoleLocked: (this.isSso && !sails.config.custom.oidcIgnoreRoles) || isDefaultAdmin,
       isUsernameLocked: (this.isSso && !sails.config.custom.oidcIgnoreUsername) || isDefaultAdmin,
       isDeletionLocked: isDefaultAdmin,
-      // Modif Baptiste pour gérer les images du trombi
-      avatarUrl: `https://uscagnes-triathlon.com/trombi/get_image.php?email=${this.email}&from=planka`,
-        /*this.avatar &&
-        `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${this.avatar.dirname}/square-100.${this.avatar.extension}`)}`,*/
+      // Modif Baptiste pour gérer les images du trombi, avec rétrocompatibilité pour les comptes externes
+      avatarUrl: (this.avatar &&
+        `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${this.avatar.dirname}/square-100.${this.avatar.extension}`)}`) || `https://uscagnes-triathlon.com/trombi/get_image.php?email=${this.email}&from=planka`,
     };
   },
 };
