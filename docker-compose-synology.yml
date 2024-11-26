@@ -10,7 +10,9 @@ services:
     ports:
       - 3000:1337
     environment:
-      - BASE_URL=http://192.168.1.21:3000
+      - BASE_URL=https://planka.eedomus.com
+      #- BASE_URL=http://plankanas.eedomus.com
+      #- BASE_URL=http://192.168.1.21:3000
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=d8b4b7a7c32bcb7ae4cfdf14849d8a6b65161f9680ed5fae3901b1e3a383f2d5fb412ab75b9b5557eac962a7078f89bd7a2b16f66ef792a965b3970a56be8c86
       - TRUST_PROXY=0
@@ -84,6 +86,10 @@ services:
       # - TELEGRAM_CHAT_ID=
       # - TELEGRAM_THREAD_ID=
 
+      # labels:
+      #   - 'traefik.enable=true'
+      #   - 'traefik.http.routers.kanban.rule=Host(`plankanas.eedomus.com`)'
+      #   - 'traefik.http.services.kanban.loadbalancer.server.port=1337'
     networks:
       - kanban_db
     depends_on:
@@ -108,13 +114,39 @@ services:
       retries: 5
     networks:
       - kanban_db
+  # traefik:
+  #   image: traefik
+  #   restart: on-failure
+  #   command:
+  #     - "--providers.docker"
+  #     - "--providers.docker.exposedByDefault=false"
+  #     - "--providers.docker.network=traefik"
+  #     - "--entrypoints.http.address=:80"
+  #     - "--entrypoints.http.http.redirections.entrypoint.to=https"
+  #     - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
+  #     - "--entrypoints.https.address=:443"
+  #     - "--entrypoints.https.http.tls.certResolver=le"
+  #     - "--certificatesresolvers.le.acme.tlschallenge=true"
+  #     - "--certificatesresolvers.le.acme.email=baptiste.vial@mail.com"
+  #     - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+  #   ports:
+  #     # Synology : Error starting userland proxy: listen tcp4 0.0.0.0:443: bind: address already in use
+  #     - 3080:80
+  #     - 3443:443
+  #   volumes:
+
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - letsencrypt:/letsencrypt
+  #   networks:
+  #     - traefik
 
 volumes:
   user-avatars:
   project-background-images:
   attachments:
   db-data:
+  letsencrypt:
 
 
 networks:
-  kanban_db:
+  kanban_db: #traefik:
