@@ -10,11 +10,14 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - BASE_URL=http://localhost:3000
+      - REACT_APP_SERVER_BASE_URL=http://localhost:3000
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
-      - SECRET_KEY=notsecretkey
-
+      - SECRET_KEY=d8b4b7a7c32bcb7ae4cfdf14849d8a6b65161f9680ed5fae3901b1e3a383f2d5fb412ab75b9b5557eac962a7078f89bd7a2b16f66ef792a965b3970a56be8c86
       # - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
+
 
       # related: https://github.com/knex/knex/issues/2354
       # As knex does not pass query parameters from the connection string we
@@ -80,7 +83,7 @@ services:
       # - TELEGRAM_CHAT_ID=
       # - TELEGRAM_THREAD_ID=
     working_dir: /app
-    command: ["sh", "-c", "npm run start"]
+    command: [ "sh", "-c", "npm run start" ]
     depends_on:
       postgres:
         condition: service_healthy
@@ -107,13 +110,12 @@ services:
       dockerfile: ../config/development/Dockerfile.server
     environment:
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
-
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_PASSWORD=demo
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_ADMIN_EMAIL=baptiste.vial@gadz.org # Do not remove if you want to prevent this user from being edited/deleted
+      - DEFAULT_ADMIN_PASSWORD=teletazs09
+      - DEFAULT_ADMIN_NAME=Administrateur
+      - DEFAULT_ADMIN_USERNAME=Admin
     working_dir: /app
-    command: ["sh", "-c", "npm run db:init"]
+    command: [ "sh", "-c", "npm run db:init" ]
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -133,7 +135,7 @@ services:
       - "5432:5432"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d planka_db"]
+      test: [ "CMD-SHELL", "pg_isready -U user -d planka_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
