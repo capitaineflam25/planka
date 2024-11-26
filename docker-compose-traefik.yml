@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   planka_traefik:
     image: traefik
