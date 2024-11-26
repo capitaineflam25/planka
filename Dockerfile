@@ -33,7 +33,8 @@ RUN apk -U upgrade \
   && apk add bash \
   --no-cache
 
-USER node
+# pb de droits sur le NAS Synology, on changera ensuite
+#USER node
 WORKDIR /app
 
 COPY --chown=node:node start.sh .
@@ -56,5 +57,8 @@ EXPOSE 1337
 HEALTHCHECK --interval=10s --timeout=2s --start-period=15s \
   CMD node ./healthcheck.js
 
+# pb de droits sur le NAS Synology, on changera ensuite
+RUN chown -R node ./
+USER node
 
 CMD [ "bash", "start.sh" ]
