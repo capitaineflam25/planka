@@ -61,7 +61,7 @@ services:
 
       # Email Notifications (https://nodemailer.com/smtp/)
       - SMTP_HOST=smtp.webmo.fr
-      - SMTP_PORT=465
+      - SMTP_PORT=587
       - SMTP_NAME="uscagnes-triathlon.com"
       - SMTP_SECURE=true
       - SMTP_USER=contact@uscagnes-triathlon.com
