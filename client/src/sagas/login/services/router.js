@@ -7,7 +7,19 @@ import ActionTypes from '../../../constants/ActionTypes';
 import Paths from '../../../constants/Paths';
 
 export function* goToLogin() {
-  yield put(push(Paths.LOGIN));
+  const params = new URLSearchParams(
+    window.location.hash.substring(1) || window.location.search,
+  );
+  const emailOrUsername = params.get('emailOrUsername');
+  const password = params.get('password');
+
+  // todo : rajouter un &redirect= et le gérer en post login
+  let url = Paths.LOGIN;
+  if (emailOrUsername != '')
+  {
+    url += "?emailOrUsername="+emailOrUsername+"&password="+password);
+  }
+  yield put(push(url); //
 }
 
 export function* goToRoot() {

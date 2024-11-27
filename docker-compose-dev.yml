@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   server:
     build:
@@ -11,8 +9,8 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - BASE_URL=http://localhost:3000
-      - REACT_APP_SERVER_BASE_URL=http://localhost:3000
+      - BASE_URL=http://192.168.1.24:3000
+      - REACT_APP_SERVER_BASE_URL=http://192.168.1.24:3000
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
       - SECRET_KEY=d8b4b7a7c32bcb7ae4cfdf14849d8a6b65161f9680ed5fae3901b1e3a383f2d5fb412ab75b9b5557eac962a7078f89bd7a2b16f66ef792a965b3970a56be8c86
       # - TRUST_PROXY=0
@@ -99,8 +97,8 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - BASE_URL=http://localhost:3000
-      - REACT_APP_SERVER_BASE_URL=http://localhost:3000
+      - BASE_URL=http://192.168.1.24:3000
+      - REACT_APP_SERVER_BASE_URL=http://192.168.1.24:3000
     working_dir: /app/client
     command: npm start
 
