@@ -12,18 +12,35 @@ export function* goToLogin() {
   );
   const emailOrUsername = params.get('emailOrUsername');
   const password = params.get('password');
+  const redirect = params.get('redirect');
 
   // todo : rajouter un &redirect= et le gérer en post login
   let url = Paths.LOGIN;
   if (emailOrUsername != '')
   {
-    url += "?emailOrUsername="+emailOrUsername+"&password="+password);
+    url += "?emailOrUsername="+emailOrUsername+"&password="+password;
   }
-  yield put(push(url); //
+  if (redirect != null && redirect != '')
+  {
+    url += "&redirect="+redirect;
+  }
+  yield put(push(url)); //
 }
 
 export function* goToRoot() {
-  yield put(push(Paths.ROOT));
+  // Baptiste : fait à 3 endroits, pour gérer 3 cas
+  // goToRoot() est appelé après un login avec succès, on vient donc exécuter la redirection demandée
+  const params = new URLSearchParams(
+    window.location.hash.substring(1) || window.location.search,
+  );
+  const redirect = params.get('redirect');
+  let url = Paths.ROOT;
+  if (redirect != null && redirect != '')
+  {
+    url = window.location.origin+redirect;
+  }
+
+  yield put(push(url));
 }
 
 export function* handleLocationChange() {
@@ -41,8 +58,10 @@ export function* handleLocationChange() {
       yield call(goToLogin);
 
       break;
-    // Baptiste : Patch login without username : https://github.com/plankanban/planka/discussions/577
     case Paths.LOGIN: {
+      // Baptiste : fait à 3 endroits, pour gérer 3 cas
+      // la page /login est apellée avec ?emailOrUsername on vient préremplir le formulaire et le soumettre
+      // Patch login without username : https://github.com/plankanban/planka/discussions/577
       const params = new URLSearchParams(
         window.location.hash.substring(1) || window.location.search,
       );

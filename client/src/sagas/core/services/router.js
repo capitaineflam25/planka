@@ -27,6 +27,7 @@ export function* goToCard(cardId) {
 }
 
 export function* handleLocationChange() {
+
   const accessToken = yield call(getAccessToken);
 
   if (!accessToken) {
@@ -48,6 +49,20 @@ export function* handleLocationChange() {
       return;
     default:
   }
+
+  // Baptiste : fait à 3 endroits, pour gérer 3 cas
+  // Baptiste : on est déjà connecté et on a un "redirect dans l'URL", ex. lien depuis une notification
+  const params = new URLSearchParams(
+    window.location.hash.substring(1) || window.location.search,
+  );
+  const redirect = params.get('redirect');
+
+  if (redirect != null && redirect != '')
+  {
+    let url = window.location.origin+redirect;
+    window.location.href = url;
+  }
+
 
   const isInitializing = yield select(selectors.selectIsInitializing);
 
