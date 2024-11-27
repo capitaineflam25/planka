@@ -61,9 +61,9 @@ services:
 
       # Email Notifications (https://nodemailer.com/smtp/)
       - SMTP_HOST=smtp.webmo.fr
-      - SMTP_PORT=587
+      - SMTP_PORT=25
       - SMTP_NAME="uscagnes-triathlon.com"
-      - SMTP_SECURE=true
+      - SMTP_SECURE=false
       - SMTP_USER=contact@uscagnes-triathlon.com
       - SMTP_PASSWORD=UCagnes20CTri*2023
       - SMTP_FROM="Planka US Cagnes Triathlon" <contact@uscagnes-triathlon.com>

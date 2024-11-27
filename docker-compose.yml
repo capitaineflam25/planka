@@ -56,13 +56,14 @@ services:
       # - OIDC_ENFORCED=true
 
       # Email Notifications (https://nodemailer.com/smtp/)
-      - SMTP_HOST=smtp.webmo.fr
-      - SMTP_PORT=465
-      - SMTP_NAME="uscagnes-triathlon.com"
-      - SMTP_SECURE=true
-      - SMTP_USER=contact@uscagnes-triathlon.com
-      - SMTP_PASSWORD=UCagnes20CTri*2023
-      - SMTP_FROM="Planka US Cagnes Triathlon" <contact@uscagnes-triathlon.com>
+      # Baptiste : planka-1    | error: Error sending email: Error: Invalid HELO. response=501 Syntactically invalid HELO argument(s): 501 Syntactically invalid HELO argument(s)
+      # - SMTP_HOST=smtp.webmo.fr
+      # - SMTP_PORT=465
+      # - SMTP_NAME="uscagnes-triathlon.com"
+      # - SMTP_SECURE=true
+      # - SMTP_USER=contact@uscagnes-triathlon.com
+      # - SMTP_PASSWORD=UCagnes20CTri*2023
+      # - SMTP_FROM="Planka US Cagnes Triathlon" <contact@uscagnes-triathlon.com>
       #- SMTP_TLS_REJECT_UNAUTHORIZED=false
 
       # Optional fields: accessToken, events, excludedEvents
