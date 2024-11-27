@@ -39,7 +39,7 @@ RUN apk -U upgrade \
 #USER node
 WORKDIR /app
 
-COPY --chown=node:node start.sh .
+COPY --chown=node:node start-dev.sh .
 COPY --chown=node:node server .
 COPY --chown=node:node healthcheck.js .
 
