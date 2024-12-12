@@ -4,8 +4,8 @@
 // on aurait pu héberger cette page chez Nuxit, mais la connexion Postgres n'est pas possible sur des serveurs externes avec l'offre mutualisée, il faut l'offre VPS
 // et il faut un domaine spécifique, sinon Nuxit ne considère pas la requête, pour ça il suffit de faire un virtual host basé sur le nom dans Web Station du NAS Synology
 
-// http://192.168.1.21:8888/?secure=1&card_id=1386470117142955095
-// https://plankaapi.eedomus.com/?secure=1&card_id=1386470117142955095
+// http://192.168.1.21:8888/?secure=1&card_id=1386470117142955095&list_id=1386469521937663055
+// https://plankaapi.eedomus.com/?secure=1&card_id=1386470117142955095&list_id=1386469521937663055
 // dans "p:\Baptiste\Dev\Docker\planka\planka\php_api\index.php"
 
 if ($_GET['secure'] != 1) die("security error");
@@ -26,10 +26,28 @@ $result = pg_query($db_connection, $query);
 //var_dump($query);
 $res = '';
 while ($rst = pg_fetch_array($result, null, PGSQL_ASSOC)) {
-  $res .= $rst['email'] . ",";
+  $res .= $rst['email'] . "|";
 }
 $res = trim($res, ',');
-echo $res;
 
+$res .= "\n";
+
+$ar_card_hidden = array();
+$query = "SELECT card_id FROM card_label WHERE label_id = '1395853119987909976'";
+$result = pg_query($db_connection, $query);
+while ($rst = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+  $ar_card_hidden[] = $rst['card_id'];
+}
+
+$query = "SELECT id, name FROM card WHERE list_id = '". $_GET['list_id']."' ORDER BY position ASC ";
+$result = pg_query($db_connection, $query);
+while ($rst = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+  if (!in_array($rst['id'], $ar_card_hidden))
+  {
+    $res .= $rst['name'] . "|";
+  }
+}
+
+echo $res;
 pg_free_result($result);
 pg_close($db_connection);
