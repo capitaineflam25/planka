@@ -97,8 +97,8 @@ services:
     image: postgres:16-alpine
     restart: on-failure
     ports:
-      # Baptiste : ouverture port local
-      - 5432:5432
+      # Baptiste : ouverture port local (Mattermost est déjà sur 5432)
+      - 7432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
